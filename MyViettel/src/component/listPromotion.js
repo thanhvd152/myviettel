@@ -6,7 +6,8 @@ import {
     Platform,
     Dimensions,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 import { Container, Card, CardItem, Body, Text } from 'native-base';
 import dataService from '../network/dataService';
@@ -27,7 +28,7 @@ export default class ListPromotion extends Component {
         this.getData()
     }
     async getData() {
-        let rs = await dataService.getListPromotions(this.state.skip, this.state.limit, 1, 'percent,stamp,billPoint,giftPoint', 'new');
+        let rs = await dataService.getListPromotions(this.state.skip, this.props.limit ? this.props.limit : this.state.limit, 1, 'percent,stamp,billPoint,giftPoint', 'new');
         console.log(rs)
         this.setState({
             data: rs.data,
@@ -35,7 +36,9 @@ export default class ListPromotion extends Component {
     }
     render() {
         return (
+
             <FlatList
+                style={{ height: null }}
                 extraData={this.state}
                 data={this.state.data}
                 renderItem={({ item, index }) =>
@@ -43,6 +46,8 @@ export default class ListPromotion extends Component {
                 }
                 keyExtractor={(item, index) => 'indexItem' + index}
             />
+
+
         );
     }
 }
