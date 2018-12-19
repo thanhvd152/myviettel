@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { Animated, Dimensions, Platform, Text, TouchableOpacity, View, ImageBackground, Image } from "react-native";
+import {
+    Animated, Dimensions, Platform, Text,
+    TouchableOpacity, View, ImageBackground, Image,
+    Modal
+} from "react-native";
 import { Body, Header, List, ListItem as Item, ScrollableTab, Tab, TabHeading, Tabs, Title, Card, CardItem } from "native-base";
 import ListPromotion from '../component/listPromotion'
 let arr = [
