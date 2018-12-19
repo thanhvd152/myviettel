@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Animated, Dimensions, Platform, Text, TouchableOpacity, View, ImageBackground, Image } from "react-native";
-import { Body, Header, List, ListItem as Item, ScrollableTab, Tab, TabHeading, Tabs, Title, Card, CardItem } from "native-base";
+import { Animated, Dimensions, Platform, Text, TouchableOpacity, View, ImageBackground, Image, FlatList } from "react-native";
+import { Body, Header, List, ListItem as Item, ScrollableTab, Tab, TabHeading, Tabs, Title, Card, CardItem, Right, Icon } from "native-base";
 import ListPromotion from '../component/listPromotion'
 let arr = [
     {
@@ -31,11 +31,11 @@ let arr = [
 ]
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const IMAGE_HEIGHT = 330;
+const IMAGE_HEIGHT = 570;
 const HEADER_HEIGHT = Platform.OS === "ios" ? 64 : 50;
 const SCROLL_HEIGHT = IMAGE_HEIGHT - HEADER_HEIGHT;
-const THEME_COLOR = "#00CC99";
-const FADED_THEME_COLOR = "#00CC99";
+const THEME_COLOR = "#00A79E";
+const FADED_THEME_COLOR = "#00A79E";
 let widthSize = Dimensions.get('screen').width
 export default class Home extends Component {
     nScroll = new Animated.Value(0);
@@ -123,11 +123,11 @@ export default class Home extends Component {
                                     </View>
                                     <View style={{ flex: 2, }} >
                                         <Text style={{ fontSize: 12 }}>ĐIỂM XẾP HẠNG</Text>
-                                        <Text style={{ fontWeight: 'bold', color: '#00CC99', fontSize: 18 }} >770</Text>
+                                        <Text style={{ fontWeight: 'bold', color: '#00A79E', fontSize: 18 }} >770</Text>
                                     </View>
                                     <View style={{ flex: 2, }} >
                                         <Text style={{ fontSize: 12 }}>ĐIỂM QUY ĐỔI</Text>
-                                        <Text style={{ fontWeight: 'bold', color: '#00CC99', fontSize: 18 }} >0</Text>
+                                        <Text style={{ fontWeight: 'bold', color: '#00A79E', fontSize: 18 }} >0</Text>
 
                                     </View>
                                 </View>
@@ -167,10 +167,50 @@ export default class Home extends Component {
                                     </CardItem>
                                 </Card>
                             </View>
+                            <View style={{ width: widthSize, backgroundColor: '#fff', height: 230 }}>
+                                <CardItem  >
+                                    <Body>
+                                        <Text style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', color: '#111111' }}>
+                                            Voucher nổi bật
+                                </Text>
+                                    </Body>
+                                    <Right >
+                                        <Text onPress={() => { this.props.navigation.navigate('voucher') }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
+                                    </Right>
+                                </CardItem>
+                                <FlatList
+                                    showsHorizontalScrollIndicator={false}
+                                    keyExtractor={(item) => item.id + ''}
+                                    style={{ alignSelf: 'center', }}
+                                    horizontal={true}
+                                    data={[1, 2, 3, 4]}
+                                    renderItem={({ item }) => <TouchableOpacity
+                                        onPress={() => { }}
+                                        style={{
+                                            width: widthSize / 1.5,
+                                            padding: 10,
+                                        }}
+                                    >
+                                        <View style={{ borderRadius: 10, overflow: 'hidden', }}>
+                                            <Image
+                                                style={{ height: widthSize / 3, borderRadius: 10, }}
+                                                source={{ uri: 'https://www.fivesquid.com/pics/t2/1474684498-60157-1-1_236px.jpg' }}
+                                            />
+                                        </View>
+
+                                        <Text allowFontScaling={false} style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', fontSize: 13 }}>{'Ưu đãi nổi bật nhất tuần'} </Text>
+
+
+                                    </TouchableOpacity>}
+                                />
+                            </View>
                         </Animated.View>
+
                     </Animated.View>
+
+
                     <Tabs
-                        tabBarUnderlineStyle={{ borderBottomWidth: 2, borderBottomColor: '#00CC99', height: 2 }}
+                        tabBarUnderlineStyle={{ borderBottomWidth: 2, borderBottomColor: '#00A79E', height: 2 }}
                         prerenderingSiblingsNumber={3}
                         renderTabBar={(props) => <Animated.View
                             style={{ transform: [{ translateY: this.tabY }], zIndex: 1, width: "100%", backgroundColor: "white", }}>
@@ -182,7 +222,7 @@ export default class Home extends Component {
                     >
                         {arr.map(item => {
                             return (
-                                <Tab key={item.id} tabStyle={{ backgroundColor: '#fff' }} activeTabStyle={{ backgroundColor: '#fff' }} textStyle={{ color: '#333333' }} activeTextStyle={{ color: '#00CC99' }} heading={item.name}>
+                                <Tab key={item.id} tabStyle={{ backgroundColor: '#fff' }} activeTabStyle={{ backgroundColor: '#fff' }} textStyle={{ color: '#333333' }} activeTextStyle={{ color: '#00A79E' }} heading={item.name}>
 
                                     <ListPromotion />
 

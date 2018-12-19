@@ -22,6 +22,7 @@ export default class ListPromotion extends Component {
             stopLoad: false,
             loadding: true,
             loadMore: false,
+
         }
     }
     componentDidMount() {
@@ -38,7 +39,6 @@ export default class ListPromotion extends Component {
         return (
 
             <FlatList
-                style={{ height: null }}
                 extraData={this.state}
                 data={this.state.data}
                 renderItem={({ item, index }) =>
