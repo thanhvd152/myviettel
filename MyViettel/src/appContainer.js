@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { StackNavigator } from 'react-navigation'
 import Home from './containers/home'
+import ListPromotion from './component/listPromotion'
 
 const RootContainer = StackNavigator({
-    home: {
-        screen: Home
-    }
+    listPromotion: { screen: ListPromotion },
+    home: { screen: Home },
 }, {
         headerMode: 'none'
     })
