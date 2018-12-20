@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { Container, Card, CardItem, Body, Text } from 'native-base'
 import moment from 'moment'
-export default class PromotionItem extends Component {
+import { withNavigation, NavigationActions } from 'react-navigation';
+class PromotionItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,12 +19,17 @@ export default class PromotionItem extends Component {
         }
     }
     render() {
-        let { item } = this.props
+        let { item, navigation } = this.props
         return (
             <Card style={styles.wrap}>
                 <TouchableOpacity
                     style={styles.item}
                     activeOpacity={0.9}
+                    onPress={() => navigation.dispatch(NavigationActions.navigate({
+                        key: 'promotionDetail',
+                        routeName: 'promotionDetail',
+                        params: { id: item.id }
+                    }))}
                 >
                     <View style={styles.title}>
                         <View style={{ flex: 2 }}>
@@ -99,3 +105,4 @@ const styles = StyleSheet.create({
     }
 
 })
+export default withNavigation(PromotionItem)

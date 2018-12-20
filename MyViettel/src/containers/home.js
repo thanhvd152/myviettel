@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, ImageBackground, Dimensions, Image, TouchableOpacity, FlatList, Platform } from 'react-native'
+import { ScrollView, View, ImageBackground, Dimensions, Image, TouchableOpacity, FlatList, Platform, Modal, TextInput, Keyboard } from 'react-native'
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem, ScrollableTab, Tab, TabHeading, Tabs } from 'native-base';
 let widthSize = Dimensions.get('screen').width
 import dataService from '../network/dataService'
@@ -41,11 +41,33 @@ export default class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            activeTab: 0
+            activeTab: 0,
+            modalData: false,
+            showbtClose: true,
+            modalChangeData: false,
+            idData: null,
+            modalGift: false
         }
     }
 
-
+    componentWillMount() {
+        this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow)
+        this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide)
+    }
+    componentWillUnmount() {
+        this.keyboardWillShowSub.remove()
+        this.keyboardWillHideSub.remove()
+    }
+    keyboardWillShow = event => {
+        this.setState({
+            showbtClose: false
+        })
+    }
+    keyboardWillHide = event => {
+        this.setState({
+            showbtClose: true
+        })
+    }
     componentDidMount() {
         this.getDataHot()
     }
@@ -57,10 +79,188 @@ export default class Home extends Component {
             dataHot: rs.data,
         });
     }
+    active(id) {
+        this.setState({ idData: id })
+    }
+    renderModalData() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalData}
+                onRequestClose={() => { this.setState({ modalData: false }) }}>
+                <Container style={{
+                    backgroundColor: 'rgba(1,1,1,0.3)', justifyContent: 'center', alignItems: 'center',
+                }}>
+                    {this.state.showbtClose ?
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            style={{
+                                position: 'absolute', zIndex: 10, right: "2%", top: "15%",
+                                backgroundColor: 'white', width: 35, height: 35, borderRadius: 17.5,
+                                justifyContent: 'center', alignItems: 'center'
+                            }}
+                            onPress={() => this.setState({ modalData: false })}
+                        >
+                            <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
+                        </TouchableOpacity> : null}
+                    <View style={{ width: '90%', height: Dimensions.get('window').height * 0.65, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
+                        <View style={{ padding: 12, backgroundColor: '#26918b' }}>
+                            <Text style={{ textAlign: 'center', color: 'white' }}>ĐỔI ĐIỂM NHẬN CƯỚC</Text>
+                        </View>
+                        <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
+                            <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi cước của bạn</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>500</Text>
+                        </View>
+                        <View style={{ alignItems: 'center' }}>
+                            <Text style={{ textAlign: 'center', marginTop: 5 }}>Số cước bạn nhận được</Text>
+                            <Text style={{ textAlign: 'center', marginTop: 4, fontSize: 28, color: '#ff7000' }}>0000</Text>
+                            <View style={{
+                                flexDirection: 'row', borderWidth: 2, width: '85%',
+                                alignItems: 'center', borderRadius: 5,
+                                borderColor: '#60bbb7', marginTop: 18
+                            }}>
+                                <View style={{ flex: 8, paddingLeft: 5, paddingRight: 5, borderRightWidth: 2, borderColor: '#60bbb7' }}>
+                                    <TextInput
+                                        placeholder="Nhập điểm"
 
+                                        underlineColorAndroid='transparent'
+                                    />
+                                </View>
+                                <View style={{ flex: 2.5, }}>
+                                    <Text style={{ textAlign: 'center' }}>Điểm</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            style={{ padding: 15, borderRadius: 25, backgroundColor: '#ff7000', width: '55%', alignSelf: 'center', marginTop: 20 }}
+                        >
+                            <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Container>
+            </Modal>
+        )
+    }
+    renderModalChangeData() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalChangeData}
+                onRequestClose={() => { this.setState({ modalChangeData: false }) }}>
+                <Container style={{
+                    backgroundColor: 'rgba(1,1,1,0.3)', justifyContent: 'center', alignItems: 'center',
+                }}>
+                    {this.state.showbtClose ?
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            style={{
+                                position: 'absolute', zIndex: 10, right: "2%", top: "15%",
+                                backgroundColor: 'white', width: 35, height: 35, borderRadius: 17.5,
+                                justifyContent: 'center', alignItems: 'center'
+                            }}
+                            onPress={() => this.setState({ modalChangeData: false })}
+                        >
+                            <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
+                        </TouchableOpacity> : null}
+                    <View style={{ width: '90%', height: Dimensions.get('window').height * 0.65, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
+                        <View style={{ padding: 12, backgroundColor: '#26918b' }}>
+                            <Text style={{ textAlign: 'center', color: 'white' }}>ĐỔI ĐIỂM NHẬN DATA</Text>
+                        </View>
+                        <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
+                            <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi data của bạn</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>500</Text>
+                        </View>
+                        <View style={{}}>
+                            <TouchableOpacity
+                                activeOpacity={0.4}
+                                style={{ padding: 15, borderBottomWidth: 1, flexDirection: 'row', alignItems: 'center' }}
+                                onPress={() => this.active(1)}
+                            >
+                                <View style={{ flex: 7 }}>
+                                    <Text style={{ color: '#45ada9', fontWeight: '600' }}>Gói PRI20</Text>
+                                    <Text >1000 điểm = 300 MB</Text>
+                                </View>
+                                {this.state.idData == 1 ? <Icon type='Entypo' name='check' style={{ color: '#45ada9' }} /> : null}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.4}
+                                style={{ padding: 15, borderBottomWidth: 1, flexDirection: 'row', alignItems: 'center' }}
+                                onPress={() => this.active(2)}
+                            >
+                                <View style={{ flex: 7 }}>
+                                    <Text style={{ color: '#45ada9', fontWeight: '600' }}>Gói PRI90</Text>
+                                    <Text >2000 điểm = 900 MB</Text>
+                                </View>
+                                {this.state.idData == 2 ? <Icon type='Entypo' name='check' style={{ color: '#45ada9' }} /> : null}
+                            </TouchableOpacity>
+
+                        </View>
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            style={{ padding: 15, borderRadius: 25, backgroundColor: '#ff7000', width: '55%', alignSelf: 'center', marginTop: 20 }}
+                        >
+                            <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI DATA</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Container>
+            </Modal>
+        )
+    }
+    renderModalGift() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalGift}
+                onRequestClose={() => { this.setState({ modalGift: false }) }}>
+                <Container style={{
+                    backgroundColor: 'rgba(1,1,1,0.3)', justifyContent: 'center', alignItems: 'center',
+                }}>
+                    {this.state.showbtClose ?
+                        <TouchableOpacity
+                            activeOpacity={0.8}
+                            style={{
+                                position: 'absolute', zIndex: 10, right: "2%", top: "6%",
+                                backgroundColor: 'white', width: 35, height: 35, borderRadius: 17.5,
+                                justifyContent: 'center', alignItems: 'center'
+                            }}
+                            onPress={() => this.setState({ modalGift: false })}
+                        >
+                            <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
+                        </TouchableOpacity> : null}
+                    <View style={{ width: '90%', height: Dimensions.get('window').height * 0.8, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
+                        <View style={{ padding: 12, backgroundColor: '#26918b' }}>
+                            <Text style={{ textAlign: 'center', color: 'white' }}>ĐỔI ĐIỂM NHẬN QUÀ</Text>
+                        </View>
+                        <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
+                            <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi quà của bạn</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>10.000</Text>
+                        </View>
+                        <View style={{ padding: 15 }}>
+                            <Text style={{ fontWeight: '500', textAlign: 'center', marginTop: 10, color: '#26918b' }}>HÀNG NGÀN QUÀ TẶNG HẤP DẪN ĐANG CHỜ BẠN</Text>
+                            <Text style={{ textAlign: 'center', marginTop: 8 }}>Vui lòng ấn ĐỔI ĐIỂM để chọn quà!</Text>
+                        </View>
+                        <Image source={require('../img/gift.jpg')} style={{ width: 220, height: 220, alignSelf: 'center', resizeMode: 'contain' }} />
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            style={{ padding: 15, borderRadius: 25, backgroundColor: '#ff7000', width: '55%', alignSelf: 'center', marginTop: 20 }}
+                        >
+                            <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Container>
+            </Modal>
+        )
+    }
     render() {
         return (
             <Container style={{ backgroundColor: '#dddddd' }}>
+                {this.renderModalData()}
+                {this.renderModalChangeData()}
+                {this.renderModalGift()}
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     stickyHeaderIndices={[3]}
@@ -110,6 +310,7 @@ export default class Home extends Component {
                                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                                         <TouchableOpacity
                                             activeOpacity={0.8}
+                                            onPress={() => this.setState({ modalData: true })}
                                         >
                                             <Image style={{ width: 50, height: 50 }} source={require('../img/dollar.png')} />
                                         </TouchableOpacity>
@@ -118,6 +319,7 @@ export default class Home extends Component {
                                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                                         <TouchableOpacity
                                             activeOpacity={0.8}
+                                            onPress={() => this.setState({ modalChangeData: true })}
                                         >
                                             <Image style={{ width: 49, height: 49 }} source={require('../img/wifi.png')} />
                                         </TouchableOpacity>
@@ -126,6 +328,7 @@ export default class Home extends Component {
                                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                                         <TouchableOpacity
                                             activeOpacity={0.8}
+                                            onPress={() => this.setState({ modalGift: true })}
                                         >
                                             <Image style={{ width: 50, height: 50 }} source={require('../img/gift.png')} />
                                         </TouchableOpacity>

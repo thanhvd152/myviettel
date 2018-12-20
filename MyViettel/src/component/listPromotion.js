@@ -6,8 +6,7 @@ import {
     Platform,
     Dimensions,
     FlatList,
-    TouchableOpacity,
-    ScrollView
+    TouchableOpacity
 } from 'react-native';
 import { Container, Card, CardItem, Body, Text } from 'native-base';
 import dataService from '../network/dataService';
@@ -18,7 +17,7 @@ export default class ListPromotion extends Component {
         this.state = {
             data: [],
             skip: 0,
-            limit: 5,
+            limit: 15,
             stopLoad: false,
             loadding: true,
             loadMore: false,
