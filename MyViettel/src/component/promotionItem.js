@@ -25,11 +25,13 @@ class PromotionItem extends Component {
                 <TouchableOpacity
                     style={styles.item}
                     activeOpacity={0.9}
-                    onPress={() => navigation.dispatch(NavigationActions.navigate({
-                        key: 'promotionDetail',
-                        routeName: 'promotionDetail',
-                        params: { id: item.id }
-                    }))}
+                    onPress={() => {
+                        navigation.dispatch(NavigationActions.navigate({
+                            key: 'promotionDetail',
+                            routeName: 'promotionDetail',
+                            params: { id: item.id }
+                        }))
+                    }}
                 >
                     <View style={styles.title}>
                         <View style={{ flex: 2 }}>

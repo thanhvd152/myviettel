@@ -131,7 +131,7 @@ export default class PromotionDetail extends Component {
                                         </Text>
                                         {item.phone ?
                                             <Text style={{ color: '#757575', }}>
-                                                {i18.t('phone') + ": " + item.phone}
+                                                {'số điện thoại' + ": " + item.phone}
                                             </Text> : null}
                                     </View>
                                 }
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     imagePro: {
         width: width,
         height: width / 2,
-        // resizeMode: 'contain'
+        resizeMode: 'stretch'
     },
     title: {
         flexDirection: 'row',
