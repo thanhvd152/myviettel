@@ -11,6 +11,7 @@
     "native-base": "^2.8.2",
     "react": "16.0.0",
     "react-native": "0.51.0",
+    "react-native-qrcode": "0.2.6",
     "react-native-tab-view": "0.0.70",
     "react-navigation": "1.5.8"
   },
