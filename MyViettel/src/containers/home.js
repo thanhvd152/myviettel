@@ -65,7 +65,7 @@ export default class Home extends Component {
         extrapolate: "clamp"
     });
     tabY = this.nScroll.interpolate({
-        inputRange: [0, SCROLL_HEIGHT, SCROLL_HEIGHT + 1],
+        inputRange: [0, IMAGE_HEIGHT, IMAGE_HEIGHT + 1],
         outputRange: [0, 0, 1]
     });
     headerBg = this.scroll.interpolate({
@@ -106,7 +106,7 @@ export default class Home extends Component {
         console.log(this.nScroll)
         return (
             <View style={{ backgroundColor: '#dddddd' }}>
-                <Animated.View style={{ position: "absolute", width: "100%", backgroundColor: this.headerBg, zIndex: 1 }}>
+                {/* <Animated.View style={{ position: "absolute", width: "100%", backgroundColor: this.headerBg, zIndex: 1 }}>
                     <Header
                         androidStatusBarColor={'#007770'}
                         style={{ backgroundColor: "transparent", margin: 0, height: 50 }} >
@@ -116,7 +116,7 @@ export default class Home extends Component {
                             </Animated.Text>
                         </Body>
                     </Header>
-                </Animated.View>
+                </Animated.View> */}
                 <Animated.ScrollView
                     scrollEventThrottle={5}
                     showsVerticalScrollIndicator={false}
@@ -127,7 +127,7 @@ export default class Home extends Component {
 
                     }}>
                         <Animated.View
-                            style={{ height: IMAGE_HEIGHT, width: "100%" }}>
+                            style={{ height: IMAGE_HEIGHT, width: "100%", }}>
                             <View style={{ backgroundColor: '#ffff', width: '100%', height: 200 }}>
                                 <View style={{ width: '100%', height: '75%' }}>
                                     <ImageBackground
@@ -242,7 +242,7 @@ export default class Home extends Component {
 
 
                     <Tabs
-                        onChangeTab={(e, i) => { this.setState({ tabSelect: e.i }) }}
+                        // onChangeTab={(e, i) => { this.setState({ tabSelect: e.i }) }}
                         tabBarUnderlineStyle={{ borderBottomWidth: 2, borderBottomColor: '#00A79E', height: 2 }}
                         prerenderingSiblingsNumber={3}
                         renderTabBar={(props) => <Animated.View
@@ -255,7 +255,7 @@ export default class Home extends Component {
                     >
                         {arr.map((item, index) => {
                             return (
-                                <Tab key={item.id} tabStyle={{ backgroundColor: '#fff' }} heading={<TabHeading style={{ backgroundColor: '#fff' }}><Icon name={item.icon} style={{ color: this.state.tabSelect == index ? '#00A79E' : '#333333', fontSize: 20, marginRight: 10, }} /><Text style={{ color: this.state.tabSelect == index ? '#00A79E' : '#333333' }}>{item.name}</Text></TabHeading>}>
+                                <Tab key={item.id} tabStyle={{ backgroundColor: '#fff' }} heading={<TabHeading style={{ backgroundColor: '#fff' }}><Icon name={item.icon} style={{ color: '#333333', fontSize: 20, marginRight: 10, }} /><Text style={{ color: '#333333' }}>{item.name}</Text></TabHeading>}>
 
                                     <ListPromotion category={item.id} />
 
