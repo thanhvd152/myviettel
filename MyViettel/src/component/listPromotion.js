@@ -42,7 +42,10 @@ export default class ListPromotion extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.newLoad(nextProps)
+
+        if (nextProps.category != this.props.category) {
+            this.newLoad(nextProps)
+        }
     }
     async getData() {
         this.setState({

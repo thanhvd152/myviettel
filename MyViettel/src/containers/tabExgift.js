@@ -3,7 +3,7 @@ import {
     View, ActivityIndicator, Platform,
     FlatList, Dimensions
 } from 'react-native';
-import { Container, Text, Icon, Header, Left, Right, Button } from 'native-base';
+import { Container, Text, Icon, Header, Left, Right, Button, Body, Title } from 'native-base';
 import { TabViewAnimated, TabBar, SceneMap, TabViewPagerScroll } from 'react-native-tab-view';
 import dataService from '../network/dataService'
 import PromotionItem from '../component/promotionItem'
@@ -164,19 +164,19 @@ export default class TabExgift extends Component {
     render() {
         return (
             <Container>
-                <Header>
+                <Header
+                    androidStatusBarColor={'#007770'}
+                    style={{ backgroundColor: '#00A79E' }}>
                     <Left>
-                        <Button hasText transparent>
-                            <Text>Back</Text>
+                        <Button onPress={() => { this.props.navigation.pop() }} transparent>
+                            <Icon name='md-arrow-back' />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Header</Title>
+                        <Title>Quà tặng</Title>
                     </Body>
                     <Right>
-                        <Button hasText transparent>
-                            <Text>Cancel</Text>
-                        </Button>
+
                     </Right>
                 </Header>
                 <TabViewAnimated

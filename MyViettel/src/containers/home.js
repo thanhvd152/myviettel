@@ -5,6 +5,7 @@ let widthSize = Dimensions.get('screen').width
 import dataService from '../network/dataService'
 import ListPromotion from '../component/listPromotion'
 import { NavigationActions } from 'react-navigation'
+import * as Animatable from 'react-native-animatable';
 let arr = [
     {
         id: 1,
@@ -87,7 +88,7 @@ export default class Home extends Component {
     renderModalData() {
         return (
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.modalData}
                 onRequestClose={() => { this.setState({ modalData: false }) }}>
@@ -106,7 +107,7 @@ export default class Home extends Component {
                         >
                             <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
                         </TouchableOpacity> : null}
-                    <View style={{ width: '90%', height: Dimensions.get('window').height * 0.65, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
+                    <Animatable.View animation="zoomIn" duration={300} iterationCount={1} direction="alternate" style={{ width: '90%', height: Dimensions.get('window').height * 0.65, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
                         <View style={{ padding: 12, backgroundColor: '#26918b' }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>ĐỔI ĐIỂM NHẬN CƯỚC</Text>
                         </View>
@@ -140,7 +141,7 @@ export default class Home extends Component {
                         >
                             <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
                         </TouchableOpacity>
-                    </View>
+                    </Animatable.View>
                 </Container>
             </Modal>
         )
@@ -148,7 +149,7 @@ export default class Home extends Component {
     renderModalChangeData() {
         return (
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.modalChangeData}
                 onRequestClose={() => { this.setState({ modalChangeData: false }) }}>
@@ -167,7 +168,7 @@ export default class Home extends Component {
                         >
                             <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
                         </TouchableOpacity> : null}
-                    <View style={{ width: '90%', height: Dimensions.get('window').height * 0.65, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
+                    <Animatable.View animation="zoomIn" duration={300} iterationCount={1} direction="alternate" style={{ width: '90%', height: Dimensions.get('window').height * 0.65, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
                         <View style={{ padding: 12, backgroundColor: '#26918b' }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>ĐỔI ĐIỂM NHẬN DATA</Text>
                         </View>
@@ -206,7 +207,7 @@ export default class Home extends Component {
                         >
                             <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI DATA</Text>
                         </TouchableOpacity>
-                    </View>
+                    </Animatable.View>
                 </Container>
             </Modal>
         )
@@ -214,7 +215,7 @@ export default class Home extends Component {
     renderModalGift() {
         return (
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.modalGift}
                 onRequestClose={() => { this.setState({ modalGift: false }) }}>
@@ -233,7 +234,7 @@ export default class Home extends Component {
                         >
                             <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
                         </TouchableOpacity> : null}
-                    <View style={{ width: '90%', height: Dimensions.get('window').height * 0.8, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
+                    <Animatable.View animation="zoomIn" duration={300} iterationCount={1} direction="alternate" style={{ width: '90%', height: Dimensions.get('window').height * 0.8, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
                         <View style={{ padding: 12, backgroundColor: '#26918b' }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>ĐỔI ĐIỂM NHẬN QUÀ</Text>
                         </View>
@@ -253,26 +254,42 @@ export default class Home extends Component {
                         >
                             <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
                         </TouchableOpacity>
-                    </View>
+                    </Animatable.View>
                 </Container>
             </Modal>
         )
     }
     render() {
         return (
-            <Container style={{ backgroundColor: '#dddddd' }}>
+            <Container style={{ backgroundColor: '#eeeeee' }}>
                 {this.renderModalData()}
                 {this.renderModalChangeData()}
                 {this.renderModalGift()}
+                <Header
+                    androidStatusBarColor={'#007770'}
+                    style={{ backgroundColor: '#00A79E', height: 0 }}>
+                    <Left>
+                        <Button onPress={() => { this.props.navigation.pop() }} transparent>
+                            {/* <Icon name='md-arrow-back' /> */}
+                        </Button>
+                    </Left>
+                    <Body>
+                        {/* <Title>Quà tặng</Title> */}
+                    </Body>
+                    <Right>
+
+                    </Right>
+                </Header>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     stickyHeaderIndices={[3]}
                 >
                     <View style={{ backgroundColor: '#ffff', width: '100%', height: 200 }}>
                         <View style={{ width: '100%', height: '75%' }}>
+
                             <ImageBackground
                                 style={{ width: '100%', height: '95%' }}
-                                source={{ uri: 'http://dantri4.vcmedia.vn/tI0YUx18mEaF5kMsGHJ/Image/2011/12/Green-Field-8_b0d52.jpg' }} >
+                                source={require('../img/bghead.png')} >
                                 <View style={{ position: 'absolute', left: widthSize / 3.5, bottom: 15 }}>
                                     <Text style={{ fontWeight: 'bold', color: '#fff' }}>Nguyễn Hồng Linh</Text>
                                     <Text style={{ color: '#fff', fontSize: 14 }} >Hội viên chưa đạt hạng</Text>
@@ -282,7 +299,7 @@ export default class Home extends Component {
                             <View style={{ backgroundColor: 'green', width: widthSize / 5, height: widthSize / 5, position: 'absolute', bottom: 0, left: 15, borderRadius: widthSize / 5 / 2, overflow: 'hidden', borderColor: '#fff', borderWidth: 1 }}>
                                 <Image
                                     style={{ width: '100%', height: '100%', resizeMode: 'stretch' }}
-                                    source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQylIxEFeXd1ScQ7kvyxSwT8CxtcbZ_l3jPuz2voRkZE95WaUt0oA' }}
+                                    source={require('../img/avatacm.jpg')}
                                 />
                             </View>
                         </View>
@@ -362,6 +379,7 @@ export default class Home extends Component {
                             horizontal={true}
                             data={this.state.dataHot}
                             renderItem={({ item }) => <TouchableOpacity
+                                activeOpacity={0.8}
                                 onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
                                     key: 'promotionDetail',
                                     routeName: 'promotionDetail',
