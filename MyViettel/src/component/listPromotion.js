@@ -35,16 +35,14 @@ export default class ListPromotion extends Component {
         });
     }
     render() {
-        return (
-            <FlatList
-                extraData={this.state}
-                data={this.state.data}
-                renderItem={({ item, index }) =>
-                    <PromotionItem item={item} />
-                }
-                keyExtractor={(item, index) => 'indexItem' + item.id}
-            />
-        );
+        return <FlatList
+            extraData={this.state}
+            data={this.state.data}
+            renderItem={({ item, index }) =>
+                <PromotionItem item={item} />
+            }
+            keyExtractor={(item, index) => 'indexItem' + item.id}
+        />
     }
 }
 const { width, height } = Dimensions.get('window')
