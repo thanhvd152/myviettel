@@ -18,6 +18,13 @@ var dataService = {
         }
         return request.post(url, data);
     },
+    getPromotionInfo: (id) => {
+        var url = 'promotion/getPromotionInfo?page=34&api=getPromotionInfo';
+        var data = {
+            promotion: id
+        }
+        return request.post(url, data);
+    },
 }
 
 export default dataService;
