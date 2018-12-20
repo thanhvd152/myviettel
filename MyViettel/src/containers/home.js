@@ -189,6 +189,7 @@ export default class Home extends Component {
                     </Tabs> */}
                     <View style={{ padding: 5, paddingLeft: 3, backgroundColor: '#dddddd', }}>
                         <FlatList
+
                             showsHorizontalScrollIndicator={false}
                             ref='RFList'
                             horizontal={true}
@@ -196,9 +197,9 @@ export default class Home extends Component {
                             extraData={this.state}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item, index }) => <TouchableOpacity
-                                onPress={() => { this.setState({ activeTab: item.id }); this.refs.RFList.scrollToIndex({ animated: true, index, viewPocation: 10 }) }}
+                                onPress={() => { this.setState({ activeTab: item.id }); if (index > 0) { this.refs.RFList.scrollToIndex({ animated: true, index: index - 1, viewPocation: 0.5 }) } }}
                                 activeOpacity={1}
-                                style={{ backgroundColor: (this.state.activeTab == item.id ? '#E76E26' : '#fff'), flexDirection: 'row', height: 35, padding: 5, marginLeft: 5, marginRight: 5, minWidth: widthSize / 4, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
+                                style={{ backgroundColor: (this.state.activeTab == item.id ? '#E76E26' : '#fff'), flexDirection: 'row', height: 35, padding: 5, marginLeft: 5, marginRight: 5, minWidth: widthSize / 3, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
                             >
                                 <Icon style={{ fontSize: 15, marginRight: 5, color: this.state.activeTab == item.id ? '#fff' : null }} name={item.icon} />
                                 <Text style={{ fontSize: 13, color: (this.state.activeTab == item.id ? '#fff' : '#333333') }} >{item.name}</Text>
