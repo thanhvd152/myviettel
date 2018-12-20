@@ -21,6 +21,7 @@ export default class ListPromotion extends Component {
             stopLoad: false,
             loadding: true,
             loadMore: false,
+
         }
     }
     componentDidMount() {
