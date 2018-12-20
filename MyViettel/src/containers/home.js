@@ -2,30 +2,38 @@ import React, { Component } from "react";
 import { Animated, Dimensions, Platform, Text, TouchableOpacity, View, ImageBackground, Image, FlatList } from "react-native";
 import { Body, Header, List, ListItem as Item, ScrollableTab, Tab, TabHeading, Tabs, Title, Card, CardItem, Right, Icon } from "native-base";
 import ListPromotion from '../component/listPromotion'
+import dataService from '../network/dataService';
+
 let arr = [
     {
-        id: 0,
-        name: 'Ẩm Thực'
-    },
-    {
         id: 1,
-        name: 'Mua sắm'
+        name: 'Ẩm Thực',
+        icon: 'md-pizza'
     },
     {
         id: 2,
-        name: 'Sức khỏe'
+        name: 'Mua sắm',
+        icon: 'ios-cart'
     },
     {
         id: 3,
-        name: 'Du lịch'
+        name: 'Sức khỏe',
+        icon: 'ios-body'
     },
     {
         id: 4,
-        name: 'Giáo dục'
+        name: 'Du lịch',
+        icon: 'ios-car'
     },
     {
         id: 5,
-        name: 'Hàng không'
+        name: 'Giáo dục',
+        icon: 'ios-book'
+    },
+    {
+        id: 6,
+        name: 'Hàng không',
+        icon: 'ios-jet'
     },
 
 ]
@@ -38,6 +46,17 @@ const THEME_COLOR = "#00A79E";
 const FADED_THEME_COLOR = "#00A79E";
 let widthSize = Dimensions.get('screen').width
 export default class Home extends Component {
+
+    constructor(props) {
+        super(props)
+        this.nScroll.addListener(Animated.event([{ value: this.scroll }], { useNativeDriver: false }));
+
+        this.state = {
+            tabSelect: 0,
+            dataHot: []
+        }
+    }
+
     nScroll = new Animated.Value(0);
     scroll = new Animated.Value(0);
     textColor = this.scroll.interpolate({
@@ -69,12 +88,19 @@ export default class Home extends Component {
         outputRange: [1, 0],
     });
 
-
-
-    constructor(props) {
-        super(props);
-        this.nScroll.addListener(Animated.event([{ value: this.scroll }], { useNativeDriver: false }));
+    componentDidMount() {
+        this.getDataHot()
     }
+
+
+    async getDataHot() {
+        let rs = await dataService.getListPromotions(0, 5, -1, 'percent,stamp,billPoint,giftPoint', 'new');
+        console.log(rs, '???')
+        this.setState({
+            dataHot: rs.data,
+        });
+    }
+
 
     render() {
         console.log(this.nScroll)
@@ -86,7 +112,7 @@ export default class Home extends Component {
                         style={{ backgroundColor: "transparent", margin: 0, height: 50 }} >
                         <Body>
                             <Animated.Text style={{ color: this.txtHead, fontWeight: 'bold', fontSize: 18 }}>
-                                ƯU đãi - Tích điểm
+                                Ưu đãi - Tích điểm
                             </Animated.Text>
                         </Body>
                     </Header>
@@ -107,7 +133,6 @@ export default class Home extends Component {
                                     <ImageBackground
                                         style={{ width: '100%', height: '95%' }}
                                         source={{ uri: 'http://dantri4.vcmedia.vn/tI0YUx18mEaF5kMsGHJ/Image/2011/12/Green-Field-8_b0d52.jpg' }} >
-                                        {/* <View style={{ backgroundColor: 'red', width: 100 }}> </View> */}
                                         <View style={{ position: 'absolute', left: widthSize / 3.5, bottom: 15 }}>
                                             <Text style={{ fontWeight: 'bold', color: '#fff' }}>Nguyễn Hồng Linh</Text>
                                             <Text style={{ color: '#fff', fontSize: 14 }} >Hội viên chưa đạt hạng</Text>
@@ -182,7 +207,7 @@ export default class Home extends Component {
                                 </Text>
                                     </Body>
                                     <Right >
-                                        <Text onPress={() => { this.props.navigation.navigate('voucher') }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
+                                        {/* <Text onPress={() => { this.props.navigation.navigate('voucher') }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text> */}
                                     </Right>
                                 </CardItem>
                                 <FlatList
@@ -190,7 +215,7 @@ export default class Home extends Component {
                                     keyExtractor={(item) => item.id + ''}
                                     style={{ alignSelf: 'center', }}
                                     horizontal={true}
-                                    data={[1, 2, 3, 4]}
+                                    data={this.state.dataHot}
                                     renderItem={({ item }) => <TouchableOpacity
                                         onPress={() => { }}
                                         style={{
@@ -201,11 +226,11 @@ export default class Home extends Component {
                                         <View style={{ borderRadius: 10, overflow: 'hidden', }}>
                                             <Image
                                                 style={{ height: widthSize / 3, borderRadius: 10, }}
-                                                source={{ uri: 'https://www.fivesquid.com/pics/t2/1474684498-60157-1-1_236px.jpg' }}
+                                                source={{ uri: (item.images ? item.images[0] : 'https://') }}
                                             />
                                         </View>
 
-                                        <Text allowFontScaling={false} style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', fontSize: 13 }}>{'Ưu đãi nổi bật nhất tuần'} </Text>
+                                        <Text numberOfLines={2} ellipsizeMode='tail' allowFontScaling={false} style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', fontSize: 13 }}>{item.name} </Text>
 
 
                                     </TouchableOpacity>}
@@ -217,6 +242,7 @@ export default class Home extends Component {
 
 
                     <Tabs
+                        onChangeTab={(e, i) => { this.setState({ tabSelect: e.i }) }}
                         tabBarUnderlineStyle={{ borderBottomWidth: 2, borderBottomColor: '#00A79E', height: 2 }}
                         prerenderingSiblingsNumber={3}
                         renderTabBar={(props) => <Animated.View
@@ -227,11 +253,11 @@ export default class Home extends Component {
                             />
                         </Animated.View>}
                     >
-                        {arr.map(item => {
+                        {arr.map((item, index) => {
                             return (
-                                <Tab key={item.id} tabStyle={{ backgroundColor: '#fff' }} activeTabStyle={{ backgroundColor: '#fff' }} textStyle={{ color: '#333333' }} activeTextStyle={{ color: '#00A79E' }} heading={item.name}>
+                                <Tab key={item.id} tabStyle={{ backgroundColor: '#fff' }} heading={<TabHeading style={{ backgroundColor: '#fff' }}><Icon name={item.icon} style={{ color: this.state.tabSelect == index ? '#00A79E' : '#333333', fontSize: 20, marginRight: 10, }} /><Text style={{ color: this.state.tabSelect == index ? '#00A79E' : '#333333' }}>{item.name}</Text></TabHeading>}>
 
-                                    <ListPromotion />
+                                    <ListPromotion category={item.id} />
 
                                 </Tab>
                             )

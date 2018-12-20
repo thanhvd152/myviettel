@@ -28,7 +28,7 @@ export default class ListPromotion extends Component {
         this.getData()
     }
     async getData() {
-        let rs = await dataService.getListPromotions(this.state.skip, this.state.limit, 1, 'percent,stamp,billPoint,giftPoint', 'new');
+        let rs = await dataService.getListPromotions(this.state.skip, this.props.limit ? this.props.limit : this.state.limit, this.props.category, 'percent,stamp,billPoint,giftPoint', 'new');
         console.log(rs)
         this.setState({
             data: rs.data,
@@ -42,7 +42,7 @@ export default class ListPromotion extends Component {
                 renderItem={({ item, index }) =>
                     <PromotionItem item={item} />
                 }
-                keyExtractor={(item, index) => 'indexItem' + index}
+                keyExtractor={(item, index) => 'indexItem' + item.id}
             />
         );
     }
