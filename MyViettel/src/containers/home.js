@@ -225,7 +225,7 @@ export default class Home extends Component {
                         <TouchableOpacity
                             activeOpacity={0.8}
                             style={{
-                                position: 'absolute', zIndex: 10, right: "2%", top: "6%",
+                                position: 'absolute', zIndex: 10, right: "2%", top: "8%",
                                 backgroundColor: 'white', width: 35, height: 35, borderRadius: 17.5,
                                 justifyContent: 'center', alignItems: 'center'
                             }}
@@ -249,6 +249,7 @@ export default class Home extends Component {
                         <TouchableOpacity
                             activeOpacity={0.7}
                             style={{ padding: 15, borderRadius: 25, backgroundColor: '#ff7000', width: '55%', alignSelf: 'center', marginTop: 20 }}
+                            onPress={() => this.setState({ modalGift: false }, () => { this.props.navigation.navigate('tabExgift') })}
                         >
                             <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
                         </TouchableOpacity>

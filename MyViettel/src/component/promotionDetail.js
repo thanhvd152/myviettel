@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     imagePro: {
         width: width,
         height: width / 2,
-        // resizeMode: 'contain'
+        resizeMode: 'stretch'
     },
     title: {
         flexDirection: 'row',
