@@ -12,6 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import { Container, Text, Header, Right, Body, Left, Title, Button, Icon } from 'native-base'
+import QRCode from 'react-native-qrcode';
 import dataService from '../network/dataService'
 import WebView from './webViewAutoHeight'
 import moment from 'moment'
@@ -37,7 +38,9 @@ export default class PromotionDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: null
+            dataSource: null,
+            arrCode: [],
+            recievedCode: false
         }
     }
     componentDidMount() {
@@ -45,8 +48,38 @@ export default class PromotionDetail extends Component {
     }
     async getData() {
         let rs = await dataService.getPromotionInfo(this.props.navigation.state.params.id);
-        this.setState({ dataSource: rs.data })
+        this.setState({
+            dataSource: rs.data,
+            arrCode: rs.data.codes
+        })
         console.log(rs)
+    }
+    renderButtonGetcode(promotion) {
+        if (this.state.recievedCode) {
+            return (
+                <View style={styles.loadCode}>
+                    <ActivityIndicator size="large" color='#2c958e' />
+                    <Text style={{ color: '#757575', }}> Vui lòng đợi...</Text>
+                </View>
+            )
+        }
+        let txtBtn = (this.state.arrCode.length == 0) ? promotion.button : promotion.buttonMore
+        return (
+            <TouchableOpacity
+                style={styles.btGet}
+                onPress={() => { this.getCode(promotion) }}
+            >
+                <Text allowFontScaling={false} style={styles.textBt}>
+                    {txtBtn}
+                </Text>
+            </TouchableOpacity>
+        )
+    }
+    async getCode() {
+        this.setState({ recievedCode: true });
+        let rs = await dataService.getCode(12638, 1);
+        this.state.arrCode.push({ code: rs.data.code });
+        this.setState({ arrCode: this.state.arrCode, recievedCode: false })
     }
     render() {
         if (!this.state.dataSource) {
@@ -88,7 +121,55 @@ export default class PromotionDetail extends Component {
                         height: 5,
                         backgroundColor: '#eeeeee',
                     }} />
-                    <View style={styles.detail}>
+                    {this.state.arrCode.length != 0 ?
+                        <View style={{ padding: 10 }}>
+                            <Text style={{ textAlign: 'center', fontWeight: 'bold', color: '#757575' }}>
+                                SỬ DỤNG ƯU ĐÃI TẠI CỬA HÀNG
+                            </Text>
+                            <Text style={{ textAlign: 'center', color: '#757575' }}>
+                                Cung cấp mã ưu đãi cho nhân viên cửa hàng
+                            </Text>
+                        </View> : null}
+                    <FlatList
+                        extraData={this.state}
+                        data={this.state.arrCode}
+                        renderItem={({ item, index }) =>
+                            <View style={styles.wrapQrcode} >
+                                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                        style={{ marginLeft: 10 }}
+                                    >
+                                        <QRCode
+                                            value={item.code}
+                                            size={Dimensions.get('window').width * 0.2}
+                                            bgColor='rgba(66,66,66 ,0.8)'
+                                        />
+                                    </TouchableOpacity>
+                                    <View
+                                        style={{
+                                            alignItems: 'center',
+                                            width: '70%',
+                                        }}
+                                    >
+                                        <Text style={{ color: 'black', color: '#757575', }}>MÃ E-VOUCHER</Text>
+                                        <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: 5 }}>
+                                            {
+                                                item.code.split('').map((el, index) => {
+                                                    return <Text key={index} style={{ color: '#757575', paddingHorizontal: 2, fontSize: 15, fontWeight: 'bold' }}>{el}</Text>
+                                                })
+                                            }
+                                        </View>
+                                        <Text style={{ marginTop: 6, color: '#757575' }}>Áp dụng tới {moment(item.endDate).format('DD/MM/Y')}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        }
+                        keyExtractor={(item, index) => index + "indexCode"}
+                    />
+                    {this.renderButtonGetcode(promotion)}
+                    <View style={[styles.detail, { borderTopWidth: 1, borderColor: '#EEEEEE' }]}>
+                        <Text style={{ color: '#757575', fontWeight: 'bold' }}>THÔNG TIN ƯU ĐÃI</Text>
                         {promotion.html ?
                             <WebView
                                 source={{ html: customStyle + promotion.html }}
@@ -200,5 +281,38 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         // marginTop: 8
+    },
+    wrapQrcode: {
+        backgroundColor: 'white',
+        padding: 8,
+        borderTopWidth: 1,
+        borderColor: '#EEEEEE',
+        width: width,
+    },
+    loadCode: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: width * 9.95 / 25.4,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: 5,
+        marginBottom: 10,
+
+    },
+    btGet: {
+        minWidth: width * 0.4,
+        height: 45,
+        padding: 15,
+        backgroundColor: '#E76E26',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 22.5,
+        alignSelf: 'center',
+        marginTop: 5,
+        marginBottom: 10,
+    },
+    textBt: {
+        color: 'white',
+        textAlign: 'center'
     },
 })

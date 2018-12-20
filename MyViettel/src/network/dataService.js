@@ -25,6 +25,14 @@ var dataService = {
         }
         return request.post(url, data);
     },
+    getCode(promotion, pointType) {
+        var url = 'promotion/getcode?page=34&api=getCode';
+        var data = {
+            promotion: promotion,
+            pointType: pointType
+        }
+        return request.post(url, data);
+    },
 }
 
 export default dataService;

@@ -193,7 +193,7 @@ export default class ScrollableHeader extends Component {
                                         <TouchableOpacity
                                             activeOpacity={0.8}
                                         >
-                                            <Image style={{ width: 60, height: 60 }} source={require('../img/gift.png')} />
+                                            {/* <Image style={{ width: 60, height: 60 }} source={require('../img/gift.png')} /> */}
                                         </TouchableOpacity>
                                         <Text style={{ color: '#333333', fontSize: 13, marginTop: 5 }} >Đổi cước</Text>
                                     </View>

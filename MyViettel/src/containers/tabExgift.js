@@ -79,7 +79,7 @@ class List extends Component {
             this.setState({
                 loadMore: true
             })
-            let arrNew = await dataService.getListPromotions(this.state.dataProduct.length, this.state.limit, this.props.category, 'percent,stamp,billPoint,giftPoint', 'new');
+            let arrNew = await dataService.getListPromotions(this.state.dataProduct.length, this.state.limit, this.props.category, 'gift,giftAnother,exchange', 'new', null, null, null, null, null, 'exchange');
             this.state.dataProduct = this.state.dataProduct.concat(arrNew.data);
             this.setState({
                 dataProduct: this.state.dataProduct,

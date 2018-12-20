@@ -350,7 +350,7 @@ export default class Home extends Component {
                                             activeOpacity={0.8}
                                             onPress={() => this.setState({ modalGift: true })}
                                         >
-                                            <Image style={{ width: 50, height: 50 }} source={require('../img/gift.png')} />
+                                            <Image style={{ width: 50, height: 50 }} source={require('../img/gift_ic.png')} />
                                         </TouchableOpacity>
                                         <Text style={{ color: '#333333', fontSize: 13, marginTop: 5 }} >Đổi cước</Text>
                                     </View>
