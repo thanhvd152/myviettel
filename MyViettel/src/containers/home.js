@@ -4,29 +4,30 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 let widthSize = Dimensions.get('screen').width
 import dataService from '../network/dataService'
 import ListPromotion from '../component/listPromotion'
+import { NavigationActions } from 'react-navigation'
 let arr = [
     {
-        id: 0,
+        id: 1,
         name: 'Ẩm Thực',
         icon: 'md-pizza'
     },
     {
-        id: 1,
+        id: 2,
         name: 'Mua sắm',
         icon: 'ios-cart'
     },
     {
-        id: 2,
+        id: 3,
         name: 'Sức khỏe',
         icon: 'ios-body'
     },
     {
-        id: 3,
+        id: 4,
         name: 'Du lịch',
         icon: 'ios-car'
     },
     {
-        id: 4,
+        id: 5,
         name: 'Giáo dục',
         icon: 'ios-book'
     },
@@ -46,7 +47,8 @@ export default class Home extends Component {
             showbtClose: true,
             modalChangeData: false,
             idData: null,
-            modalGift: false
+            modalGift: false,
+            cateSelect: 1
         }
     }
 
@@ -342,7 +344,7 @@ export default class Home extends Component {
                     </View>
 
 
-                    <View style={{ width: widthSize, backgroundColor: '#fff', height: 230 }}>
+                    <View style={{ width: widthSize, backgroundColor: '#fff', marginBottom: 5 }}>
                         <CardItem  >
                             <Body>
                                 <Text style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', color: '#111111' }}>
@@ -360,7 +362,11 @@ export default class Home extends Component {
                             horizontal={true}
                             data={this.state.dataHot}
                             renderItem={({ item }) => <TouchableOpacity
-                                onPress={() => { }}
+                                onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
+                                    key: 'promotionDetail',
+                                    routeName: 'promotionDetail',
+                                    params: { id: item.id }
+                                }))}
                                 style={{
                                     width: widthSize / 1.5,
                                     padding: 10,
@@ -373,7 +379,7 @@ export default class Home extends Component {
                                     />
                                 </View>
 
-                                <Text numberOfLines={2} ellipsizeMode='tail' allowFontScaling={false} style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', fontSize: 13 }}>{item.name} </Text>
+                                <Text numberOfLines={2} ellipsizeMode='tail' allowFontScaling={false} style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', fontSize: 13, marginTop: 5 }}>{item.name} </Text>
 
 
                             </TouchableOpacity>}
@@ -393,26 +399,27 @@ export default class Home extends Component {
                     </Tabs> */}
                     <View style={{ padding: 5, paddingLeft: 3, backgroundColor: '#dddddd', }}>
                         <FlatList
+
                             showsHorizontalScrollIndicator={false}
                             ref='RFList'
                             horizontal={true}
                             data={arr}
                             extraData={this.state}
-                            keyExtractor={(item) => item.id}
+                            keyExtractor={(item) => item.name}
                             renderItem={({ item, index }) => <TouchableOpacity
-                                onPress={() => { this.setState({ activeTab: item.id }); this.refs.RFList.scrollToIndex({ animated: true, index, viewPocation: 10 }) }}
+                                onPress={() => { this.setState({ activeTab: index, cateSelect: item.id }); if (index > 0) { this.refs.RFList.scrollToIndex({ animated: true, index: index - 1, viewPocation: 0.5 }) } }}
                                 activeOpacity={1}
-                                style={{ backgroundColor: (this.state.activeTab == item.id ? '#E76E26' : '#fff'), flexDirection: 'row', height: 35, padding: 5, marginLeft: 5, marginRight: 5, minWidth: widthSize / 4, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
+                                style={{ backgroundColor: (this.state.activeTab == index ? '#E76E26' : '#fff'), flexDirection: 'row', height: 35, padding: 5, marginLeft: 5, marginRight: 5, minWidth: widthSize / 3, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
                             >
-                                <Icon style={{ fontSize: 15, marginRight: 5, color: this.state.activeTab == item.id ? '#fff' : null }} name={item.icon} />
-                                <Text style={{ fontSize: 13, color: (this.state.activeTab == item.id ? '#fff' : '#333333') }} >{item.name}</Text>
+                                <Icon style={{ fontSize: 15, marginRight: 5, color: this.state.activeTab == index ? '#fff' : null }} name={item.icon} />
+                                <Text style={{ fontSize: 13, color: (this.state.activeTab == index ? '#fff' : '#333333') }} >{item.name}</Text>
 
                             </TouchableOpacity>}
 
                         />
                     </View>
                     <View>
-                        <ListPromotion />
+                        <ListPromotion category={this.state.cateSelect} promotionType={'percent,stamp,billPoint'} />
                     </View>
 
 

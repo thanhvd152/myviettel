@@ -3,7 +3,7 @@ import {
     View, ActivityIndicator, Platform,
     FlatList, Dimensions
 } from 'react-native';
-import { Container, Text, Icon } from 'native-base';
+import { Container, Text, Icon, Header, Left, Right, Button } from 'native-base';
 import { TabViewAnimated, TabBar, SceneMap, TabViewPagerScroll } from 'react-native-tab-view';
 import dataService from '../network/dataService'
 import PromotionItem from '../component/promotionItem'
@@ -164,6 +164,21 @@ export default class TabExgift extends Component {
     render() {
         return (
             <Container>
+                <Header>
+                    <Left>
+                        <Button hasText transparent>
+                            <Text>Back</Text>
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title>Header</Title>
+                    </Body>
+                    <Right>
+                        <Button hasText transparent>
+                            <Text>Cancel</Text>
+                        </Button>
+                    </Right>
+                </Header>
                 <TabViewAnimated
                     style={{ flex: 1 }}
                     navigationState={this.state}

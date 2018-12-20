@@ -212,7 +212,7 @@ export default class PromotionDetail extends Component {
                                         </Text>
                                         {item.phone ?
                                             <Text style={{ color: '#757575', }}>
-                                                {'số điện thoại' + ": " + item.phone}
+                                                {'Số điện thoại' + ": " + item.phone}
                                             </Text> : null}
                                     </View>
                                 }
