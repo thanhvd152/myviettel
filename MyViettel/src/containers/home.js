@@ -54,6 +54,11 @@ export default class Home extends Component {
         outputRange: ["transparent", "transparent", THEME_COLOR],
         extrapolate: "clamp"
     });
+    txtHead = this.scroll.interpolate({
+        inputRange: [0, SCROLL_HEIGHT, SCROLL_HEIGHT + 1],
+        outputRange: ["transparent", "transparent", '#fff'],
+        extrapolate: "clamp"
+    });
     imgScale = this.nScroll.interpolate({
         inputRange: [-25, 0],
         outputRange: [1.1, 1],
@@ -72,6 +77,7 @@ export default class Home extends Component {
     }
 
     render() {
+        console.log(this.nScroll)
         return (
             <View style={{ backgroundColor: '#dddddd' }}>
                 <Animated.View style={{ position: "absolute", width: "100%", backgroundColor: this.headerBg, zIndex: 1 }}>
@@ -79,9 +85,9 @@ export default class Home extends Component {
                         androidStatusBarColor={'#007770'}
                         style={{ backgroundColor: "transparent", margin: 0, height: 50 }} >
                         <Body>
-                            <Title>
-
-                            </Title>
+                            <Animated.Text style={{ color: this.txtHead, fontWeight: 'bold', fontSize: 18 }}>
+                                ƯU đãi - Tích điểm
+                            </Animated.Text>
                         </Body>
                     </Header>
                 </Animated.View>
@@ -91,16 +97,17 @@ export default class Home extends Component {
                     onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.nScroll } } }], { useNativeDriver: true })}
                     style={{ zIndex: 0 }}>
                     <Animated.View style={{
-                        transform: [{ translateY: Animated.multiply(this.nScroll, 0.65) }, { scale: this.imgScale }],
+                        // transform: [{ translateY: Animated.multiply(this.nScroll, 0.65) }, { scale: this.imgScale }],
 
                     }}>
                         <Animated.View
-                            style={{ height: IMAGE_HEIGHT, width: "100%", opacity: this.imgOpacity }}>
+                            style={{ height: IMAGE_HEIGHT, width: "100%" }}>
                             <View style={{ backgroundColor: '#ffff', width: '100%', height: 200 }}>
                                 <View style={{ width: '100%', height: '75%' }}>
                                     <ImageBackground
                                         style={{ width: '100%', height: '95%' }}
                                         source={{ uri: 'http://dantri4.vcmedia.vn/tI0YUx18mEaF5kMsGHJ/Image/2011/12/Green-Field-8_b0d52.jpg' }} >
+                                        {/* <View style={{ backgroundColor: 'red', width: 100 }}> </View> */}
                                         <View style={{ position: 'absolute', left: widthSize / 3.5, bottom: 15 }}>
                                             <Text style={{ fontWeight: 'bold', color: '#fff' }}>Nguyễn Hồng Linh</Text>
                                             <Text style={{ color: '#fff', fontSize: 14 }} >Hội viên chưa đạt hạng</Text>
