@@ -49,7 +49,8 @@ export default class Home extends Component {
             modalChangeData: false,
             idData: null,
             modalGift: false,
-            cateSelect: 1
+            cateSelect: 1,
+            cuoc: 0
         }
     }
 
@@ -113,11 +114,11 @@ export default class Home extends Component {
                         </View>
                         <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi cước của bạn</Text>
-                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>500</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>400</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <Text style={{ textAlign: 'center', marginTop: 5 }}>Số cước bạn nhận được</Text>
-                            <Text style={{ textAlign: 'center', marginTop: 4, fontSize: 28, color: '#ff7000' }}>0000</Text>
+                            <Text style={{ textAlign: 'center', marginTop: 4, fontSize: 28, color: '#ff7000' }}>{(Number(this.state.cuoc) * 20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} VNĐ</Text>
                             <View style={{
                                 flexDirection: 'row', borderWidth: 2, width: '85%',
                                 alignItems: 'center', borderRadius: 5,
@@ -126,8 +127,9 @@ export default class Home extends Component {
                                 <View style={{ flex: 8, paddingLeft: 5, paddingRight: 5, borderRightWidth: 2, borderColor: '#60bbb7' }}>
                                     <TextInput
                                         placeholder="Nhập điểm"
-
                                         underlineColorAndroid='transparent'
+                                        keyboardType={'numeric'}
+                                        onChangeText={(txt) => { this.setState({ cuoc: txt }) }}
                                     />
                                 </View>
                                 <View style={{ flex: 2.5, }}>
@@ -174,7 +176,7 @@ export default class Home extends Component {
                         </View>
                         <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi data của bạn</Text>
-                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>500</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>300</Text>
                         </View>
                         <View style={{}}>
                             <TouchableOpacity
@@ -240,7 +242,7 @@ export default class Home extends Component {
                         </View>
                         <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi quà của bạn</Text>
-                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>10.000</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>300</Text>
                         </View>
                         <View style={{ padding: 15 }}>
                             <Text style={{ fontWeight: '500', textAlign: 'center', marginTop: 10, color: '#26918b' }}>HÀNG NGÀN QUÀ TẶNG HẤP DẪN ĐANG CHỜ BẠN</Text>
@@ -250,7 +252,7 @@ export default class Home extends Component {
                         <TouchableOpacity
                             activeOpacity={0.7}
                             style={{ padding: 15, borderRadius: 25, backgroundColor: '#ff7000', width: '55%', alignSelf: 'center', marginTop: 20 }}
-                            onPress={() => this.setState({ modalGift: false }, () => { this.props.navigation.navigate('tabExgift') })}
+                            onPress={() => this.setState({ modalGift: false }, () => { this.props.navigation.navigate('tabExgift', { promotionType: 'gift,giftAnother,exchange', name: 'Quà tặng' }) })}
                         >
                             <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
                         </TouchableOpacity>
@@ -282,7 +284,7 @@ export default class Home extends Component {
                 </Header>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    stickyHeaderIndices={[3]}
+                // stickyHeaderIndices={[3]}
                 >
                     <View style={{ backgroundColor: '#ffff', width: '100%', height: 200 }}>
                         <View style={{ width: '100%', height: '75%' }}>
@@ -316,7 +318,7 @@ export default class Home extends Component {
                             </View>
                             <View style={{ flex: 2, }} >
                                 <Text style={{ fontSize: 12 }}>ĐIỂM QUY ĐỔI</Text>
-                                <Text style={{ fontWeight: 'bold', color: '#00CC99', fontSize: 18 }} >0</Text>
+                                <Text style={{ fontWeight: 'bold', color: '#00CC99', fontSize: 18 }} >1000</Text>
 
                             </View>
                         </View>
@@ -343,7 +345,7 @@ export default class Home extends Component {
                                         >
                                             <Image style={{ width: 49, height: 49 }} source={require('../img/wifi.png')} />
                                         </TouchableOpacity>
-                                        <Text style={{ color: '#333333', fontSize: 13, marginTop: 5 }} >Đổi cước</Text>
+                                        <Text style={{ color: '#333333', fontSize: 13, marginTop: 5 }} >Đổi data</Text>
                                     </View>
                                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
                                         <TouchableOpacity
@@ -352,7 +354,7 @@ export default class Home extends Component {
                                         >
                                             <Image style={{ width: 50, height: 50 }} source={require('../img/gift_ic.png')} />
                                         </TouchableOpacity>
-                                        <Text style={{ color: '#333333', fontSize: 13, marginTop: 5 }} >Đổi cước</Text>
+                                        <Text style={{ color: '#333333', fontSize: 13, marginTop: 5 }} >Đổi quà</Text>
                                     </View>
                                 </Body>
 
@@ -365,7 +367,7 @@ export default class Home extends Component {
                         <CardItem  >
                             <Body>
                                 <Text style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', color: '#111111' }}>
-                                    Voucher nổi bật
+                                    <Icon style={{ fontSize: 23 }} type='MaterialCommunityIcons' name='fire' /> Voucher nổi bật
                                 </Text>
                             </Body>
                             <Right >
@@ -404,43 +406,34 @@ export default class Home extends Component {
                         />
                     </View>
 
-
-                    {/* <Tabs tabBarUnderlineStyle={{ borderBottomWidth: 2, borderBottomColor: '#00CC99', height: 2 }} renderTabBar={() => <ScrollableTab style={{ height: 40 }} backgroundColor={'#fff'} />}>
-                        {arr.map(item => {
-                            return (
-                                <Tab key={item.id} tabStyle={{ backgroundColor: '#fff' }} activeTabStyle={{ backgroundColor: '#fff' }} textStyle={{ color: '#333333' }} activeTextStyle={{ color: '#00CC99' }} heading={item.name}>
-                                    <ListPromotion />
-                                </Tab>
-                            )
-                        })}
-
-                    </Tabs> */}
-                    <View style={{ padding: 5, paddingLeft: 3, backgroundColor: '#dddddd', }}>
-                        <FlatList
-
-                            showsHorizontalScrollIndicator={false}
-                            ref='RFList'
-                            horizontal={true}
-                            data={arr}
-                            extraData={this.state}
-                            keyExtractor={(item) => item.name}
-                            renderItem={({ item, index }) => <TouchableOpacity
-                                onPress={() => { this.setState({ activeTab: index, cateSelect: item.id }); if (index > 0) { this.refs.RFList.scrollToIndex({ animated: true, index: index - 1, viewPocation: 0.5 }) } }}
-                                activeOpacity={1}
-                                style={{ backgroundColor: (this.state.activeTab == index ? '#E76E26' : '#fff'), flexDirection: 'row', height: 35, padding: 5, marginLeft: 5, marginRight: 5, minWidth: widthSize / 3, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
-                            >
-                                <Icon style={{ fontSize: 15, marginRight: 5, color: this.state.activeTab == index ? '#fff' : null }} name={item.icon} />
-                                <Text style={{ fontSize: 13, color: (this.state.activeTab == index ? '#fff' : '#333333') }} >{item.name}</Text>
-
-                            </TouchableOpacity>}
-
-                        />
-                    </View>
-                    <View>
-                        <ListPromotion category={this.state.cateSelect} promotionType={'percent,stamp,billPoint'} />
+                    <View style={{ width: widthSize, backgroundColor: '#fff', marginBottom: 5 }}>
+                        <CardItem  >
+                            <Body>
+                                <Text allowFontScaling={false} style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', color: '#111111' }}>
+                                    <Icon style={{ fontSize: 23 }} name='md-pricetags' />  Ưu đãi dành cho bạn
+                                </Text>
+                            </Body>
+                            <Right >
+                                <Text onPress={() => { this.props.navigation.navigate('tabExgift', { promotionType: 'percent,stamp,billPoint', name: 'Ưu đãi' }) }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
+                            </Right>
+                        </CardItem>
+                        <ListPromotion limit={3} category={this.state.cateSelect} promotionType={'percent,stamp,billPoint'} />
                     </View>
 
 
+                    <View style={{ width: widthSize, backgroundColor: '#fff', marginBottom: 5 }}>
+                        <CardItem  >
+                            <Body>
+                                <Text allowFontScaling={false} style={{ fontWeight: Platform.OS == 'ios' ? 'bold' : '500', color: '#111111' }}>
+                                    <Icon style={{ fontSize: 23 }} type='MaterialCommunityIcons' name='gift' />  Quà tặng dành cho bạn
+                                </Text>
+                            </Body>
+                            <Right >
+                                <Text onPress={() => { this.props.navigation.navigate('tabExgift', { promotionType: 'gift,giftAnother,exchange', name: 'Quà tặng' }) }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
+                            </Right>
+                        </CardItem>
+                        <ListPromotion limit={3} category={this.state.cateSelect} promotionType={'gift,giftAnother,exchange'} />
+                    </View>
 
                 </ScrollView>
             </Container >
