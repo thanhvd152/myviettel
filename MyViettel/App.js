@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import AppContainer from './src/appContainer'
+import GeneralExample from './src/component/test3'
 
 export default class App extends Component {
   render() {
