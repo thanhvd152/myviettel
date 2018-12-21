@@ -57,19 +57,21 @@ export default class TabExgift extends Component {
     }
     constructor(props) {
         super(props);
+        let { params } = this.props.navigation.state
         let { renderScene, routes } = this.state;
         arr.map((item, index) => {
             routes.push({ key: item.id + '', name: item.name, icon: item.icon });
             renderScene[item.id + ''] = () => {
-                return (<List category={item.id} latitude={null} longitude={null} />)
+                return (<List promotionType={params && params.promotionType ? params.promotionType : 'null'} category={item.id} latitude={null} longitude={null} />)
             }
         })
     }
     changeData(lat, long) {
+        let { params } = this.props.navigation.state
         let newSence = {}
         arr.map((item, index) => {
             newSence[item.id + ''] = () => {
-                return (<List category={item.id} latitude={lat} longitude={long} />)
+                return (<List promotionType={params && params.promotionType ? params.promotionType : 'null'} category={item.id} latitude={lat} longitude={long} />)
             }
         })
         this._renderScene = SceneMap(newSence);
@@ -101,6 +103,8 @@ export default class TabExgift extends Component {
 
     />;
     render() {
+        let { params } = this.props.navigation.state
+
         return (
             <Container>
                 <Header
@@ -112,7 +116,7 @@ export default class TabExgift extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Quà tặng</Title>
+                        <Title>{params ? params.name : ''}</Title>
                     </Body>
                     <Right>
 

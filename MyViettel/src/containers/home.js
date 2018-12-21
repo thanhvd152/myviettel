@@ -252,7 +252,7 @@ export default class Home extends Component {
                         <TouchableOpacity
                             activeOpacity={0.7}
                             style={{ padding: 15, borderRadius: 25, backgroundColor: '#ff7000', width: '55%', alignSelf: 'center', marginTop: 20 }}
-                            onPress={() => this.setState({ modalGift: false }, () => { this.props.navigation.navigate('tabExgift') })}
+                            onPress={() => this.setState({ modalGift: false }, () => { this.props.navigation.navigate('tabExgift', { promotionType: 'gift,giftAnother,exchange', name: 'Quà tặng' }) })}
                         >
                             <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
                         </TouchableOpacity>
@@ -414,7 +414,7 @@ export default class Home extends Component {
                                 </Text>
                             </Body>
                             <Right >
-                                <Text onPress={() => { this.props.navigation.navigate('tabExgift') }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
+                                <Text onPress={() => { this.props.navigation.navigate('tabExgift', { promotionType: 'percent,stamp,billPoint', name: 'Ưu đãi' }) }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
                             </Right>
                         </CardItem>
                         <ListPromotion limit={3} category={this.state.cateSelect} promotionType={'percent,stamp,billPoint'} />
@@ -429,10 +429,10 @@ export default class Home extends Component {
                                 </Text>
                             </Body>
                             <Right >
-                                <Text onPress={() => { this.props.navigation.navigate('tabExgift') }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
+                                <Text onPress={() => { this.props.navigation.navigate('tabExgift', { promotionType: 'gift,giftAnother,exchange', name: 'Quà tặng' }) }} style={{ textAlign: 'right', color: '#00A79E', height: 20 }}>Xem thêm <Icon style={{ fontSize: 14, color: '#00A79E' }} name='ios-arrow-forward' /> </Text>
                             </Right>
                         </CardItem>
-                        <ListPromotion limit={3} category={this.state.cateSelect} promotionType={'percent,stamp,billPoint'} />
+                        <ListPromotion limit={3} category={this.state.cateSelect} promotionType={'gift,giftAnother,exchange'} />
                     </View>
 
                 </ScrollView>
