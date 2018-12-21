@@ -38,6 +38,9 @@ class PromotionItem extends Component {
                             <Image source={{ uri: item.partner.logo }} style={styles.logo} />
                         </View>
                         <Text style={styles.name} numberOfLines={2} ellipsizeMode="tail">{item.partner.name}</Text>
+                        {item.distance ? <View style={styles.location}>
+                            <Text style={{ color: 'white', fontSize: 14 }}>{Number(this.props.item.distance).toFixed(1) + 'km'}</Text>
+                        </View> : null}
                         <View style={styles.persent}>
                             <Text style={{ color: 'white', fontSize: 14 }}>-10%</Text>
                             {/* <Text style={{ color: 'white', fontSize: 14 }}>tặng 1.000.000 điểm</Text> */}
@@ -101,12 +104,25 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     persent: {
-        flex: 1.6,
+        // flex: 1.6,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#ff7000",
         borderRadius: 3,
         height: 26,
+        minWidth: 40
+    },
+    location: {
+        // flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#80CBC4",
+        borderRadius: 13,
+        height: 26,
+        minWidth: 50,
+        marginRight: 5,
+        paddingLeft: 4,
+        paddingRight: 4
     },
     image: {
         width: width * 0.96,

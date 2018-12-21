@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {
     View, ActivityIndicator, Platform,
-    FlatList, Dimensions
+    FlatList, Dimensions, TouchableOpacity
 } from 'react-native';
 import { Container, Text, Icon, Header, Left, Right, Button, Body, Title } from 'native-base';
 import { TabViewAnimated, TabBar, SceneMap, TabViewPagerScroll } from 'react-native-tab-view';
 import dataService from '../network/dataService'
 import PromotionItem from '../component/promotionItem'
+import List from './List'
 let arr = [
     {
         id: 0,
@@ -40,79 +41,7 @@ let arr = [
     },
 
 ]
-class List extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            skip: 0,
-            limit: 15,
-            dataProduct: [],
-            stopLoad: false,
-            loadding: true,
-            refreshing: false,
-            loadMore: false,
-            runLoadMore: false,
-        }
-    }
-    componentDidMount() {
-        this.getDataProduct()
-    }
-    async getDataProduct() {
-        this.setState({
-            refreshing: true,
-            dataProduct: [],
-            loadding: true,
-            stopLoad: false
-        });
-        let rs = await dataService.getListPromotions(this.state.skip, this.state.limit, this.props.category, 'percent,stamp,billPoint,giftPoint', 'new');
-        this.setState({
-            dataProduct: rs.data,
-            loadding: false,
-            refreshing: false,
-            stopLoad: rs.data.length < 15 ? true : false
-        });
-    }
-    isLoading = false;
-    async loadMoreProduct() {
-        if (this.state.stopLoad == false && !this.isLoading) {
-            this.isLoading = true;
-            this.setState({
-                loadMore: true
-            })
-            let arrNew = await dataService.getListPromotions(this.state.dataProduct.length, this.state.limit, this.props.category, 'gift,giftAnother,exchange', 'new', null, null, null, null, null, 'exchange');
-            this.state.dataProduct = this.state.dataProduct.concat(arrNew.data);
-            this.setState({
-                dataProduct: this.state.dataProduct,
-                loadMore: false,
-                stopLoad: arrNew.data.length < 15 ? true : false
-            })
-            this.isLoading = false
-        }
 
-    }
-    render() {
-        return (
-            <Container style={{ backgroundColor: '#E6E6E6' }}>
-                <FlatList
-                    style={{ alignSelf: 'center', marginTop: 1.5 }}
-                    extraData={this.state}
-                    removeClippedSubviews={true}
-                    showsVerticalScrollIndicator={false}
-                    onRefresh={() => { this.getDataProduct() }}
-                    refreshing={this.state.refreshing}
-                    onEndReached={this.loadMoreProduct.bind(this)}
-                    onEndReachedThreshold={0.5}
-                    data={this.state.dataProduct}
-                    renderItem={({ item, index }) =>
-                        <PromotionItem item={item} />
-                    }
-                    keyExtractor={(item, index) => index + "index"}
-                />
-            </Container>
-        )
-    }
-
-}
 const initialLayout = {
     height: 0,
     width: Dimensions.get('window').width,
@@ -123,18 +52,28 @@ export default class TabExgift extends Component {
         index: 0,
         routes: [],
         renderScene: {},
-        loadData: false
+        loadData: false,
+        idFillter: 1
     }
     constructor(props) {
         super(props);
         let { renderScene, routes } = this.state;
         arr.map((item, index) => {
-            routes.push({ key: index + '', name: item.name, icon: item.icon });
-            renderScene[index + ''] = () => {
-                return (<List category={item.id} />)
+            routes.push({ key: item.id + '', name: item.name, icon: item.icon });
+            renderScene[item.id + ''] = () => {
+                return (<List category={item.id} latitude={null} longitude={null} />)
             }
         })
-        console.log(renderScene)
+    }
+    changeData(lat, long) {
+        let newSence = {}
+        arr.map((item, index) => {
+            newSence[item.id + ''] = () => {
+                return (<List category={item.id} latitude={lat} longitude={long} />)
+            }
+        })
+        this._renderScene = SceneMap(newSence);
+        this.setState({ renderScene: newSence })
     }
     _handleIndexChange = index => this.setState({ index });
     _renderScene = SceneMap(this.state.renderScene);
@@ -179,6 +118,44 @@ export default class TabExgift extends Component {
 
                     </Right>
                 </Header>
+                <View style={{ flexDirection: 'row', backgroundColor: '#E6E6E6', padding: 8, paddingLeft: 15 }}>
+                    <TouchableOpacity
+                        style={{
+                            flexDirection: 'row', padding: 10,
+                            backgroundColor: this.state.idFillter == 1 ? '#E76E26' : "white",
+                            justifyContent: 'center', alignItems: 'center',
+                            borderRadius: 20, height: 35, minWidth: 120,
+                        }}
+                        onPress={() => this.setState({ idFillter: 1 }, () => this.changeData(null, null))}
+                    >
+                        <Icon
+                            type='Ionicons'
+                            name='ios-flash'
+                            style={{
+                                color: this.state.idFillter == 1 ? 'white' : null,
+                                fontSize: 24, marginRight: 4
+                            }} />
+                        <Text style={{ color: this.state.idFillter == 1 ? 'white' : null, }}>Mới nhất</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{
+                            flexDirection: 'row', padding: 10,
+                            backgroundColor: this.state.idFillter == 2 ? '#E76E26' : "white",
+                            justifyContent: 'center', alignItems: 'center',
+                            borderRadius: 20, height: 35, minWidth: 120, marginLeft: 15
+                        }}
+                        onPress={() => this.setState({ idFillter: 2 }, () => this.changeData(21.0770734, 105.8194164))}
+                    >
+                        <Icon
+                            type='Ionicons'
+                            name='ios-car'
+                            style={{
+                                color: this.state.idFillter == 2 ? 'white' : null,
+                                fontSize: 24, marginRight: 4
+                            }} />
+                        <Text style={{ color: this.state.idFillter == 2 ? 'white' : null, }}>Gần nhất</Text>
+                    </TouchableOpacity>
+                </View>
                 <TabViewAnimated
                     style={{ flex: 1 }}
                     navigationState={this.state}
