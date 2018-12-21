@@ -55,6 +55,7 @@ export default class PromotionDetail extends Component {
         console.log(rs)
     }
     renderButtonGetcode(promotion) {
+        if (this.state.arrCode.length >= 1) return null
         if (this.state.recievedCode) {
             return (
                 <View style={styles.loadCode}>
