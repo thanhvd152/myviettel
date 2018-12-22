@@ -100,9 +100,9 @@ android {
     defaultConfig {
         applicationId "com.myviettel"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 23
+        versionCode 10001
+        versionName "1.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
