@@ -41,30 +41,25 @@ class PromotionItem extends Component {
                         {item.distance ? <View style={styles.location}>
                             <Text style={{ color: 'white', fontSize: 14 }}>{Number(this.props.item.distance).toFixed(1) + 'km'}</Text>
                         </View> : null}
-                        <View style={styles.persent}>
-                            <Text style={{ color: 'white', fontSize: 14 }}>-10%</Text>
-                            {/* <Text style={{ color: 'white', fontSize: 14 }}>tặng 1.000.000 điểm</Text> */}
-                            {/* <Text style={{ color: 'white', fontSize: 14 }}>-{item.exchangePoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} điểm</Text>
-                            <Text style={{ color: 'white', fontSize: 14 }}>tích {item.billPointPercent}</Text>
-                            <Icon name='gift' />
-                            {(isPercent && item.percent) ?
-                                <Text style={{ color: 'white', fontSize: 14 }}>-{item.percent}%</Text> : null
-                            }
-                            {item.isGiftPoint ?
-                                <Text style={{ color: 'white', fontSize: 14 }}>+{item.giftPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text> : null
-                            }
-                            {item.isExchangePoint ?
-                                <Text style={{ color: 'white', fontSize: 14 }}>-{item.exchangePoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} điểm</Text> : null
-                            }
-                            {this.props.item.isBillPoint ?
-                                <Text style={{ color: 'white', fontSize: 14 }}>tích {item.billPointPercent}</Text> : null
-                            }
-                            {(this.props.item.isGiftAnother ||
-                                this.props.item.isGift ||
-                                (this.props.item.isStamp && this.props.item.stamp != 0) ||
-                                (this.props.item.isPercent && !this.props.item.percent)
-                            ) ? <Icon name='gift' /> : null} */}
-                        </View>
+                        {(this.props.item.isGiftAnother ||
+                            this.props.item.isGift ||
+                            (this.props.item.isStamp && this.props.item.stamp != 0) ||
+                            (this.props.item.isPercent && !this.props.item.percent)
+                        ) ? <Icon type="MaterialCommunityIcons" name='gift' style={{ color: '#ff7000', marginRight: 5, fontSize: 30 }} /> :
+                            <View style={styles.persent}>
+                                {(item.isPercent && item.percent) ?
+                                    <Text style={{ color: 'white', fontSize: 14 }}>-{item.percent}%</Text> : null
+                                }
+                                {item.isGiftPoint ?
+                                    <Text style={{ color: 'white', fontSize: 14 }}>+{item.giftPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text> : null
+                                }
+                                {item.isExchangePoint ?
+                                    <Text style={{ color: 'white', fontSize: 14 }}>{item.exchangePoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text> : null
+                                }
+                                {this.props.item.isBillPoint ?
+                                    <Text style={{ color: 'white', fontSize: 14 }}>tích {item.billPointPercent}%</Text> : null
+                                }
+                            </View>}
                     </View>
                     <Image source={{ uri: item.images[0] }} style={styles.image} />
                     <View style={styles.bottom}>
@@ -109,8 +104,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: "#ff7000",
         borderRadius: 3,
-        height: 26,
-        minWidth: 40
+        minHeight: 26,
+        minWidth: 40,
+        paddingLeft: 4,
+        paddingRight: 4
     },
     location: {
         // flex: 2,
