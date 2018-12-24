@@ -94,15 +94,15 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
-        applicationId "com.neon.viettel"
+        applicationId "com.neon.viettel2"
         minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 10004
-        versionName "1.4"
+        targetSdkVersion 26
+        versionCode 10005
+        versionName "1.5"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

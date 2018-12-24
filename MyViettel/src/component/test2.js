@@ -16,7 +16,6 @@ export default class ParallaxDemo extends Component {
     tabY = this.nScroll.interpolate({
         inputRange: [0, SCROLL_HEIGHT, SCROLL_HEIGHT + 20],
         outputRange: [0, 0, 20],
-        extrapolate: 'clamp',
     });
     tabContent = (x, i) => <View style={{ height: this.state.height }}>
         <List onLayout={({ nativeEvent: { layout: { height } } }) => {

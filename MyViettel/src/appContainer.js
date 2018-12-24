@@ -6,12 +6,14 @@ import PromotionDetail from './component/promotionDetail'
 import TabExgift from './containers/tabExgift'
 import Test from './component/test'
 import Test2 from './component/test2'
+import Test3 from './component/test3'
 const RootContainer = StackNavigator({
     home: { screen: Home },
     tabExgift: { screen: TabExgift },
     promotionDetail: { screen: PromotionDetail },
     // test: { screen: Test },
-    // test2: { screen: Test2 },
+    // // test2: { screen: Test2 },
+    // // test3: { screen: Test3 },
 
 }, {
         headerMode: 'none'
