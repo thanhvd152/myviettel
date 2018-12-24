@@ -78,7 +78,7 @@ export default class PromotionDetail extends Component {
     }
     async getCode() {
         this.setState({ recievedCode: true });
-        let rs = await dataService.getCode(12638, 1);
+        let rs = await dataService.getCode(this.props.navigation.state.params.id, 1);
         this.state.arrCode.push({ code: rs.data.code });
         this.setState({ arrCode: this.state.arrCode, recievedCode: false })
     }

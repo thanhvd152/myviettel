@@ -118,7 +118,8 @@ export default class Home extends Component {
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <Text style={{ textAlign: 'center', marginTop: 5 }}>Số cước bạn nhận được</Text>
-                            <Text style={{ textAlign: 'center', marginTop: 4, fontSize: 28, color: '#ff7000' }}>{(Number(this.state.cuoc) * 20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} VNĐ</Text>
+                            <Text style={{ textAlign: 'center', marginTop: 4, fontSize: 28, color: '#ff7000' }}>
+                                {(Number(this.state.cuoc) * 20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} VNĐ</Text>
                             <View style={{
                                 flexDirection: 'row', borderWidth: 2, width: '85%',
                                 alignItems: 'center', borderRadius: 5,
