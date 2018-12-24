@@ -44,7 +44,7 @@ export default class List extends Component {
             stopLoad: false
         });
         let rs = await dataService.getListPromotions(
-            this.state.skip, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null, 'exchange');
+            this.state.skip, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null);
         this.setState({
             dataProduct: rs.data,
             loadding: false,
@@ -59,7 +59,7 @@ export default class List extends Component {
             this.setState({
                 loadMore: true
             })
-            let arrNew = await dataService.getListPromotions(this.state.dataProduct.length, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null, 'exchange');
+            let arrNew = await dataService.getListPromotions(this.state.dataProduct.length, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null);
             this.state.dataProduct = this.state.dataProduct.concat(arrNew.data);
             this.setState({
                 dataProduct: this.state.dataProduct,

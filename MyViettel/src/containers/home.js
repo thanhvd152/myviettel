@@ -6,6 +6,8 @@ import dataService from '../network/dataService'
 import ListPromotion from '../component/listPromotion'
 import { NavigationActions } from 'react-navigation'
 import * as Animatable from 'react-native-animatable';
+import SplashScreen from 'react-native-splash-screen'
+
 let arr = [
     {
         id: 1,
@@ -55,6 +57,7 @@ export default class Home extends Component {
     }
 
     componentWillMount() {
+        SplashScreen.hide()
         this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow)
         this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide)
     }
@@ -176,7 +179,7 @@ export default class Home extends Component {
                         </View>
                         <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi data của bạn</Text>
-                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>300</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>400</Text>
                         </View>
                         <View style={{}}>
                             <TouchableOpacity
@@ -224,31 +227,33 @@ export default class Home extends Component {
                 <Container style={{
                     backgroundColor: 'rgba(1,1,1,0.3)', justifyContent: 'center', alignItems: 'center',
                 }}>
-                    {this.state.showbtClose ?
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            style={{
-                                position: 'absolute', zIndex: 10, right: "2%", top: "8%",
-                                backgroundColor: 'white', width: 35, height: 35, borderRadius: 17.5,
-                                justifyContent: 'center', alignItems: 'center'
-                            }}
-                            onPress={() => this.setState({ modalGift: false })}
-                        >
-                            <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
-                        </TouchableOpacity> : null}
-                    <Animatable.View animation="zoomIn" duration={300} iterationCount={1} direction="alternate" style={{ width: '90%', height: Dimensions.get('window').height * 0.8, backgroundColor: 'white', borderRadius: 15, overflow: 'hidden' }}>
+
+
+                    <Animatable.View animation="zoomIn" duration={300} iterationCount={1} direction="alternate" style={{ width: '90%', backgroundColor: 'white', borderRadius: 15, overflow: 'hidden', paddingBottom: 30 }}>
                         <View style={{ padding: 12, backgroundColor: '#26918b' }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>ĐỔI ĐIỂM NHẬN QUÀ</Text>
+                            {this.state.showbtClose ?
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    style={{
+                                        position: 'absolute', zIndex: 10, right: 0, top: 0,
+                                        backgroundColor: 'white', width: 35, height: 35, borderRadius: 17.5,
+                                        justifyContent: 'center', alignItems: 'center'
+                                    }}
+                                    onPress={() => this.setState({ modalGift: false })}
+                                >
+                                    <Icon type='Ionicons' name='md-close' style={{ color: '#9E9E9E', fontSize: 22 }} />
+                                </TouchableOpacity> : null}
                         </View>
                         <View style={{ backgroundColor: '#45ada9', padding: 10 }}>
                             <Text style={{ textAlign: 'center', color: 'white' }}>Điểm đổi quà của bạn</Text>
-                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>300</Text>
+                            <Text style={{ textAlign: 'center', color: 'white', marginTop: 4, fontSize: 20 }}>600</Text>
                         </View>
                         <View style={{ padding: 15 }}>
                             <Text style={{ fontWeight: '500', textAlign: 'center', marginTop: 10, color: '#26918b' }}>HÀNG NGÀN QUÀ TẶNG HẤP DẪN ĐANG CHỜ BẠN</Text>
                             <Text style={{ textAlign: 'center', marginTop: 8 }}>Vui lòng ấn ĐỔI ĐIỂM để chọn quà!</Text>
                         </View>
-                        <Image source={require('../img/gift.jpg')} style={{ width: 220, height: 220, alignSelf: 'center', resizeMode: 'contain' }} />
+                        <Image source={require('../img/gift.jpg')} style={{ width: Dimensions.get('screen').height / 5, height: Dimensions.get('screen').height / 5, alignSelf: 'center', resizeMode: 'contain' }} />
                         <TouchableOpacity
                             activeOpacity={0.7}
                             style={{ padding: 15, borderRadius: 25, backgroundColor: '#ff7000', width: '55%', alignSelf: 'center', marginTop: 20 }}
@@ -257,11 +262,13 @@ export default class Home extends Component {
                             <Text style={{ color: 'white', textAlign: 'center' }}>ĐỔI ĐIỂM</Text>
                         </TouchableOpacity>
                     </Animatable.View>
+
                 </Container>
             </Modal>
         )
     }
     render() {
+
         return (
             <Container style={{ backgroundColor: '#eeeeee' }}>
                 {this.renderModalData()}

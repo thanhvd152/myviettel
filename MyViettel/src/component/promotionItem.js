@@ -57,7 +57,7 @@ class PromotionItem extends Component {
                                     <Text style={{ color: 'white', fontSize: 14 }}>{item.exchangePoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text> : null
                                 }
                                 {this.props.item.isBillPoint ?
-                                    <Text style={{ color: 'white', fontSize: 14 }}>tích {item.billPointPercent}%</Text> : null
+                                    <Text style={{ color: 'white', fontSize: 14 }}>Tích {item.billPointPercent}%</Text> : null
                                 }
                             </View>}
                     </View>
