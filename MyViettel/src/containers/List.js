@@ -44,7 +44,7 @@ export default class List extends Component {
             stopLoad: false
         });
         let rs = await dataService.getListPromotions(
-            this.state.skip, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null, 'exchange');
+            this.state.skip, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null, this.props.tabIndex);
         this.setState({
             dataProduct: rs.data,
             loadding: false,
@@ -59,7 +59,7 @@ export default class List extends Component {
             this.setState({
                 loadMore: true
             })
-            let arrNew = await dataService.getListPromotions(this.state.dataProduct.length, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null, 'exchange');
+            let arrNew = await dataService.getListPromotions(this.state.dataProduct.length, this.state.limit, this.props.category, (this.props.promotionType ? this.props.promotionType : 'gift,giftAnother,exchange'), this.state.latitude ? "location" : 'new', null, this.state.latitude, this.state.longitude, null, null, this.props.tabIndex);
             this.state.dataProduct = this.state.dataProduct.concat(arrNew.data);
             this.setState({
                 dataProduct: this.state.dataProduct,
@@ -87,7 +87,8 @@ export default class List extends Component {
                         this.state.dataProduct.length == 0 && this.state.stopLoad ? <Text>Chưa có ưu đãi trong mục này</Text> : <Text style={{ height: 30, width: 150 }}> </Text>
                     }
                     ListFooterComponent={
-                        !this.state.stopLoad ? <ActivityIndicator size="large" color="#2c958e" style={{ alignSelf: 'center', paddingBottom: 15 }} /> : null
+                        !this.state.stopLoad && !this.state.refreshing ?
+                            <ActivityIndicator size="large" color="#2c958e" style={{ alignSelf: 'center', paddingBottom: 15 }} /> : null
                     }
                     renderItem={({ item, index }) =>
                         <PromotionItem item={item} />

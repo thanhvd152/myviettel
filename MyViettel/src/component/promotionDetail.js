@@ -91,6 +91,7 @@ export default class PromotionDetail extends Component {
             )
         }
         let { partner, promotion, shops } = this.state.dataSource
+        let { distance } = this.props.navigation.state.params
         return (
             <Container style={{ backgroundColor: 'white' }} >
                 <Header style={{ backgroundColor: '#2c958e' }} androidStatusBarColor="#2c958e">
@@ -109,7 +110,51 @@ export default class PromotionDetail extends Component {
                     <Right style={{ flex: 1 }} />
                 </Header>
                 <ScrollView>
-                    <Image source={{ uri: promotion.images[0] }} style={styles.imagePro} />
+                    <View>
+                        <Image source={{ uri: promotion.images[0] }} style={styles.imagePro} />
+                        <View style={{ flexDirection: 'row', position: 'absolute', right: 10, top: 10 }}>
+                            {distance ? <View style={styles.location}>
+                                <Icon type='Ionicons' name='ios-car' style={{ color: 'white', fontSize: 24, marginRight: 4 }} />
+                                <Text style={{ color: 'white', fontSize: 14 }}>{Number(distance).toFixed(1) + 'km'}</Text>
+                            </View> : null}
+                            {(promotion.isGiftAnother ||
+                                promotion.isGift ||
+                                (promotion.isStamp && promotion.stamp != 0) ||
+                                (promotion.isPercent && !promotion.percent)
+                            ) ? <Icon type="MaterialCommunityIcons" name='gift' style={{ color: '#ff7000', marginRight: 5, fontSize: 30 }} /> :
+                                <View style={styles.persent}>
+                                    {(promotion.isPercent && promotion.percent) ?
+                                        <Text style={{ color: 'white', fontSize: 14 }}>-{promotion.percent}%</Text> : null
+                                    }
+                                    {promotion.isForSale ?
+                                        <View>
+                                            <Text style={{ color: 'white', fontSize: 14 }}>
+                                                {promotion.salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                                            </Text>
+                                            <Text style={{ color: 'white', fontSize: 14, textDecorationLine: 'line-through', fontStyle: 'italic' }}>
+                                                {promotion.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                                            </Text>
+                                        </View> : null
+                                    }
+                                    {promotion.isGiftPoint ?
+                                        <Text style={{ color: 'white', fontSize: 14 }}>+{promotion.giftPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text> : null
+                                    }
+                                    {promotion.isExchangePoint ?
+                                        <View>
+                                            <Text style={{ color: 'white', fontSize: 14 }}>{promotion.exchangePoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text>
+                                            {promotion.price ? <Text style={{ color: 'white', fontSize: 14, textDecorationLine: 'line-through', fontStyle: 'italic' }}>
+                                                {promotion.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                                            </Text> : null}
+                                        </View>
+                                        : null
+                                    }
+                                    {promotion.isBillPoint ?
+                                        <Text style={{ color: 'white', fontSize: 14 }}>Tích {promotion.billPointPercent}%</Text> : null
+                                    }
+                                </View>}
+
+                        </View>
+                    </View>
                     <View style={styles.title}>
                         <Image source={{ uri: partner.logo }} style={styles.logo} />
                         <View >
@@ -315,5 +360,28 @@ const styles = StyleSheet.create({
     textBt: {
         color: 'white',
         textAlign: 'center'
+    },
+    location: {
+        // flex: 2,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#80CBC4",
+        borderRadius: 13,
+        height: 26,
+        minWidth: 50,
+        marginRight: 5,
+        padding: 10
+    },
+    persent: {
+        // flex: 1.6,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#ff7000",
+        borderRadius: 3,
+        minHeight: 26,
+        minWidth: 40,
+        paddingLeft: 8,
+        paddingRight: 8
     },
 })

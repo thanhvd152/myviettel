@@ -29,8 +29,8 @@ export default class ScrollableHeader extends Component {
         });
         const headerTranslate = Animated.diffClamp(this.state.scrollY, 0, 50)
             .interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, -1],
+                inputRange: [0, 6, 10],
+                outputRange: [0, 0, -10]
             });
 
 
